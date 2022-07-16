@@ -3,13 +3,14 @@
     <bread-crumb></bread-crumb>
     <el-card>
       <el-table :data="tableData" style="width: 100%" border stripe>
-        <el-table-column prop="id" label="#" width="80"> </el-table-column>
-        <el-table-column prop="authName" label="权限名称">
-        </el-table-column>
+        <el-table-column type="index" label="#" width="80"> </el-table-column>
+        <el-table-column prop="authName" label="权限名称"> </el-table-column>
         <el-table-column prop="path" label="路径"> </el-table-column>
         <el-table-column label="权限等级">
           <template v-slot="scope">
-            <el-tag>{{ scope.row.pid }}</el-tag>
+            <el-tag :type="level(scope.row.level)"
+              >等级{{ parseInt(scope.row.level) + 1 }}</el-tag
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -38,9 +39,32 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    level (val) {
+      switch (val) {
+        case '0':
+          return ''
+        case '1':
+          return 'success'
+        case '2':
+          return 'warning'
+      }
     }
   },
-  computed: {},
+  computed: {
+    // level (num) {
+    //   return function () {
+    //     switch (num) {
+    //       case '0':
+    //         return ''
+    //       case '1':
+    //         return 'success'
+    //       case '2':
+    //         return 'warning'
+    //     }
+    //   }
+    // }
+  },
   watch: {},
   filters: {},
   components: {}

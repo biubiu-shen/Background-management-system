@@ -43,7 +43,7 @@
         :border="true"
       >
         <!-- id -->
-        <el-table-column prop="id" label="#" width="60"></el-table-column>
+        <el-table-column type="index" label="#" width="60"></el-table-column>
         <!-- 姓名 -->
         <el-table-column prop="username" label="姓名"> </el-table-column>
         <!-- 电话 -->

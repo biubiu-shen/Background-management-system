@@ -46,7 +46,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="#" prop="id"> </el-table-column>
+        <el-table-column label="#" type="index"> </el-table-column>
         <el-table-column label="角色名称" prop="roleName"> </el-table-column>
         <el-table-column label="角色描述" prop="roleDesc"> </el-table-column>
         <el-table-column label="操作">
