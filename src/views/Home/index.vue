@@ -69,7 +69,7 @@
               <i class="el-icon-s-order"></i>
               <span v-if="!isChange">订单管理</span></template
             >
-            <el-menu-item index="4-1">
+            <el-menu-item index="4-1" @click="$router.push({ name: 'order' })">
               <i class="el-icon-menu"></i>
               <span slot="title">订单列表</span>
             </el-menu-item>

@@ -29,6 +29,11 @@ const routes = [
         path: 'roleist',
         name: 'rolelist',
         component: () => import('@/views/PremissionUser/RoleList.vue')
+      },
+      {
+        path: 'order',
+        name: 'order',
+        component: () => import('@/views/order/index.vue')
       }
     ]
   },
