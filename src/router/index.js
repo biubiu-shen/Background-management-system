@@ -34,12 +34,45 @@ const routes = [
         path: 'order',
         name: 'order',
         component: () => import('@/views/order/index.vue')
+      },
+      {
+        path: 'goodslist',
+        name: 'goodslist',
+        redirect: 'goodslist/s',
+        component: () => import('@/views/Goods/GoodsList.vue'),
+        children: [
+          {
+            path: 's',
+            component: () => import('@/views/Goods/components/listGoods.vue')
+          },
+          {
+            path: 'add',
+            name: 'add',
+            component: () => import('@/views/Goods/components/addGoods.vue')
+          }
+        ]
+      },
+      {
+        path: 'goodskind',
+        name: 'goodskind',
+        component: () => import('@/views/Goods/GoodsKind.vue')
+      },
+      {
+        path: 'kindinfo',
+        name: 'kindinfo',
+        component: () => import('@/views/Goods/KindInfo.vue')
       }
     ]
   },
   {
     path: '/login',
     component: Login
+  },
+  {
+    path: '*',
+    redirect: '/404',
+    component: () => import('@/views/NotFound/index.vue')
+
   }
 ]
 

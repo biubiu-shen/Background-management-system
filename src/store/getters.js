@@ -3,6 +3,7 @@
 const getters = {
   rightList: state => state.premiss.rightList,
   roleList: state => state.premiss.roleList,
-  orderList: state => state.order.orderList
+  orderList: state => state.order.orderList,
+  goodsList: state => state.goods.goodsList
 }
 export default getters

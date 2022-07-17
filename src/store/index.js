@@ -4,6 +4,7 @@ import user from './modules/user'
 import premiss from './modules/premiss'
 import order from './modules/order'
 import getters from './getters'
+import goods from './modules/goods'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -17,6 +18,7 @@ export default new Vuex.Store({
   modules: {
     user,
     premiss,
-    order
+    order,
+    goods
   }
 })

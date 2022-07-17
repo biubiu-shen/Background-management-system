@@ -27,7 +27,11 @@
           </template>
         </el-table-column>
         <el-table-column prop="is_send" label="是否发货"> </el-table-column>
-        <el-table-column prop="create_time" label="下单时间"> </el-table-column>
+        <el-table-column label="下单时间">
+          <template v-slot="scope1">
+            {{ scope1.row.update_time | DateFormat }}
+          </template>
+        </el-table-column>
         <el-table-column label="操作"
           ><el-button
             type="primary"
@@ -37,6 +41,7 @@
         </el-table-column>
       </el-table>
     </el-card>
+    <!-- {{ Date.now() | DateFormat }} -->
   </div>
 </template>
 

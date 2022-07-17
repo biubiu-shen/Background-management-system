@@ -50,15 +50,24 @@
               <i class="el-icon-s-goods"></i>
               <span v-if="!isChange">商品管理</span>
             </template>
-            <el-menu-item index="3-1">
+            <el-menu-item
+              index="3-1"
+              @click="$router.push({ name: 'goodslist' })"
+            >
               <i class="el-icon-menu"></i>
               <span slot="title">商品列表</span>
             </el-menu-item>
-            <el-menu-item index="3-2">
+            <el-menu-item
+              index="3-2"
+              @click="$router.push({ name: 'kindinfo' })"
+            >
               <i class="el-icon-menu"></i>
               <span slot="title">分类参数</span>
             </el-menu-item>
-            <el-menu-item index="3-3">
+            <el-menu-item
+              index="3-3"
+              @click="$router.push({ name: 'goodskind' })"
+            >
               <i class="el-icon-menu"></i>
               <span slot="title">商品分类</span>
             </el-menu-item>
