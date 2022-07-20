@@ -1,4 +1,4 @@
-import { roleList, delRolePower, rightList } from '@/api/premiss'
+import { roleList, delRolePower, rightList, rolePower } from '@/api/premiss'
 const state = {
   roleList: [],
   rightList: []
@@ -51,7 +51,17 @@ const actions = {
   async setRights (content) {
     try {
       const res = await rightList('tree')
-      content.commit('getRightList',res.data.data)
+      content.commit('getRightList', res.data.data)
+      console.log(res)
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  //
+  async changeRight (content, obj) {
+    try {
+      const arr = obj.arr.join(',')
+      const res = await rolePower(obj.id, arr)
       console.log(res)
     } catch (err) {
       console.log(err)

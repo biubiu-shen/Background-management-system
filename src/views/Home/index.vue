@@ -3,7 +3,7 @@
     <el-header>
       <h1>
         <img class="logoImg" src="../../assets/logo.png" alt="" />
-        绍兴白马后台管理系统
+        马黑州杭后台管理系统
       </h1>
       <el-button @click="quit">退出</el-button>
     </el-header>
