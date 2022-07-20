@@ -11,8 +11,6 @@
     >
     </el-alert>
     <!-- 步骤条 -->
-    <!-- <el-row type="flex" class="row-bg" justify="center">
-      <el-col :span="18"> -->
     <el-steps
       :space="200"
       :active="active"
@@ -32,23 +30,7 @@
     <!-- aside -->
     <el-tabs tab-position="left" style="height: 200px" @tab-click="changeTab">
       <el-tab-pane label="基本信息">
-        <el-form :model="obj" :rules="rules" ref="objForm">
-          <el-form-item label="商品名称" prop="goods_name">
-            <el-input v-model="obj.goods_name"></el-input>
-          </el-form-item>
-          <el-form-item label="商品价格" prop="goods_price">
-            <el-input v-model="obj.goods_price"></el-input>
-          </el-form-item>
-          <el-form-item label="商品重量" prop="goods_weight">
-            <el-input v-model="obj.goods_weight"></el-input>
-          </el-form-item>
-          <el-form-item label="商品数量" prop="goods_number">
-            <el-input v-model="obj.goods_number"></el-input>
-          </el-form-item>
-          <el-form-item label="商品分类" prop="goods_cat">
-            <el-input v-model="obj.goods_cat"></el-input>
-          </el-form-item>
-        </el-form>
+        <BassicInfo></BassicInfo>
       </el-tab-pane>
       <el-tab-pane label="商品参数">配置管理</el-tab-pane>
       <el-tab-pane label="商品属性">角色管理</el-tab-pane>
@@ -67,34 +49,26 @@
           <el-button size="small" type="primary">点击上传</el-button>
         </el-upload>
       </el-tab-pane>
-      <el-tab-pane label="商品内容">定时任务补偿</el-tab-pane>
+      <el-tab-pane label="商品内容">
+        <quillEditor></quillEditor>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+import { quillEditor } from 'vue-quill-editor'
+import BassicInfo from './BassicInfo.vue'
 export default {
   created () { },
   data () {
     return {
 
       fileList: [],
-      active: 0,
-      obj: {
-        goods_name: null,
-        goods_cat: null,
-        goods_price: null,
-        goods_number: null,
-        goods_weight: null,
-        goods_introduce: null,
-        pics: null,
-        attrs: null
-      },
-      rules: {
-        goods_name: [
-          { requierd: true, message: '不能为空', trigger: 'blur' }
-        ]
-      }
+      active: 0
     }
   },
   methods: {
@@ -102,6 +76,7 @@ export default {
       this.active = parseInt(val.index)
       console.log(val.index)
     },
+    // 图片事件
     handleRemove (file, fileList) {
       console.log(file, fileList)
     },
@@ -113,23 +88,28 @@ export default {
     },
     beforeRemove (file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    // 图片事件结束
+    // 下拉选择
+    handleChange (value) {
+      console.log(value)
     }
   },
   computed: {},
   watch: {},
   filters: {},
-  components: {}
+  components: {
+    quillEditor,
+    BassicInfo
+  }
 }
 </script>
 
-<style scoped>
-/* ::deep(.el-steps) {
-  margin: 0 auto;
-} */
-/* ::v-deep .el-tab-pane {
-  width: 100vh;
-} */
+<style scoped lang="less">
 .add {
-  height: 1000px;
+  height: 100vh;
+}
+/deep/.el-tabs--left {
+  overflow: unset;
 }
 </style>

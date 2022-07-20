@@ -31,3 +31,14 @@ export const addGoods = (data) => {
     data
   })
 }
+/**
+ *获取商品分类列表
+ * @param {*} params
+ * @returns
+ */
+export const GoodsKindList = (params) => {
+  return request({
+    url: 'categories',
+    params
+  })
+}
