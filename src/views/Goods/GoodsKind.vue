@@ -47,12 +47,21 @@
       ></Pagination>
     </el-card>
     <el-dialog title="添加分类" :visible.sync="isdialogKind">
-      <el-form label-width="100px" :model="formGoodsKind">
-        <el-form-item label="分类名称:">
-          <el-input v-model="formGoodsKind.goods_name"></el-input>
+      <el-form label-width="100px" :model="formGoodsKind" :rules="rules">
+        <el-form-item label="分类名称:" prop="cat_name">
+          <el-input v-model="formGoodsKind.cat_name"></el-input>
         </el-form-item>
         <el-form-item label="父级分类:">
-          <el-input></el-input>
+          <el-cascader
+            v-model="formGoodsKind.cat_level"
+            :options="tableData"
+            :props="{
+              checkStrictly: true,
+              label: 'cat_name',
+              value: 'cat_level',
+            }"
+            clearable
+          ></el-cascader>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -60,6 +69,7 @@
 </template>
 
 <script>
+// 提交还没做
 import { GoodsKindList } from '@/api/goods'
 import Pagination from './components/Pagination.vue'
 export default {
@@ -69,15 +79,23 @@ export default {
   data () {
     return {
       formGoodsKind: {
-        goods_name: ''
+        cat_pid: null,
+        cat_name: null,
+        cat_level: null
       },
+      // options: [],
       isdialogKind: false,
       tableData: [],
       obj: {
         pagesize: 4,
         pagenum: 1
       },
-      total: 0
+      total: 0,
+      rules: {
+        cat_name: [
+          { required: true, message: '商民名称不可以为空', trigger: 'blur' }
+        ]
+      }
     }
   },
   methods: {

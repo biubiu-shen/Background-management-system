@@ -1,16 +1,21 @@
 <template>
-<div>
+  <div>
     <el-breadcrumb separator=">">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-      <el-breadcrumb-item>用户列表</el-breadcrumb-item>
+      <el-breadcrumb-item>{{$route.meta.title?$route.meta.title:'null'}}</el-breadcrumb-item>
+      <el-breadcrumb-item>{{$route.meta.son?$route.meta.son:'null'}}</el-breadcrumb-item>
     </el-breadcrumb>
-</div>
+  </div>
 </template>
 
 <script>
 export default {
-  created () {},
+  created () {
+    // if(this.$route.meta){
+    //   this.route.mate
+    // }
+    console.log('meta', this.$route.meta)
+  },
   data () {
     return {}
   },
@@ -23,5 +28,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
