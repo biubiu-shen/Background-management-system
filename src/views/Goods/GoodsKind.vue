@@ -32,12 +32,18 @@
           </template>
         </el-table-column>
         <el-table-column label="操作">
-          <el-button type="primary" size="mini" icon="el-icon-edit"
-            >编辑</el-button
-          >
-          <el-button type="danger" size="mini" icon="el-icon-delete"
-            >删除</el-button
-          >
+          <template v-slot="scope">
+            <el-button type="primary" size="mini" icon="el-icon-edit"
+              >编辑</el-button
+            >
+            <el-button
+              type="danger"
+              size="mini"
+              icon="el-icon-delete"
+              @click="delGoodsKind(scope.row)"
+              >删除</el-button
+            >
+          </template>
         </el-table-column>
       </el-table>
       <Pagination
@@ -58,7 +64,7 @@
             :props="{
               checkStrictly: true,
               label: 'cat_name',
-              value: 'cat_level',
+              value: 'cat_id',
             }"
             clearable
           ></el-cascader>
@@ -70,7 +76,7 @@
 
 <script>
 // 提交还没做
-import { GoodsKindList } from '@/api/goods'
+import { GoodsKindList, delGoodskind } from '@/api/goods'
 import Pagination from './components/Pagination.vue'
 export default {
   created () {
@@ -125,6 +131,16 @@ export default {
         return 'success'
       } else {
         return 'warning'
+      }
+    },
+    // 删除还有bug，网络显示删除成功，但页面刷新后还有
+    async delGoodsKind (val) {
+      try {
+        await delGoodskind(val.cat_id)
+        this.getGoodsKList()
+        this.$message.success('del success')
+      } catch (err) {
+        console.log(err)
       }
     }
   },

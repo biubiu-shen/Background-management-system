@@ -114,7 +114,7 @@ export const editCategories = (id, attrId, data) => {
   })
 }
 /**
- *删除商品
+ *删除参数
  * @param {*} id
  * @param {*} attrid
  * @returns
@@ -122,6 +122,13 @@ export const editCategories = (id, attrId, data) => {
 export const delCategories = (id, attrid) => {
   return request({
     url: `categories/${id}/attributes/${attrid}`,
+    method: 'delete'
+  })
+}
+// 删除商品分类
+export const delGoodskind = (id) => {
+  return request({
+    url: `categories/${id}`,
     method: 'delete'
   })
 }
