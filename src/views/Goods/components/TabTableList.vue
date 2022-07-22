@@ -16,7 +16,7 @@
             :key="index"
             closable
             style="margin: 5px 10px"
-            @close="handleClose"
+            @close="handleClose(scope.row, item)"
           >
             {{ item }}</el-tag
           >
@@ -34,7 +34,7 @@
             v-else
             class="button-new-tag"
             size="small"
-            @click="showInput"
+            @click="showInput(scope.row.attr_id)"
             >+ New Tag</el-button
           >
         </template>
@@ -43,11 +43,18 @@
       <el-table-column label="分类名称" prop="attr_name"> </el-table-column>
       <el-table-column label="操作">
         <template v-slot="scope">
-          <TwoBtn @delSt="delThings(scope.row)"></TwoBtn>
+          <TwoBtn
+            @delSt="delThings(scope.row)"
+            @edits="editThing(scope.row)"
+          ></TwoBtn>
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog :title="title" :visible.sync="dialogFormVisible">
+    <el-dialog
+      :title="title"
+      :visible.sync="dialogFormVisible"
+      @close="isEdit = false"
+    >
       <el-form
         :model="parameter"
         :rules="rules"
@@ -59,7 +66,13 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button
+          @click="
+            dialogFormVisible = false;
+            isEdit = false;
+          "
+          >取 消</el-button
+        >
         <el-button type="primary" @click="addSD">确 定</el-button>
       </div>
     </el-dialog>
@@ -88,6 +101,8 @@ export default {
   created () { },
   data () {
     return {
+      attrId: null,
+      isEdit: false,
       inputVisible: false,
       inputValue: '',
       dialogFormVisible: false,
@@ -108,22 +123,59 @@ export default {
     }
   },
   methods: {
-    handleClose (tag) {
+
+    // 存在问题：1.想将编辑的ajax封住装，但是替换后，发现newtag会添加错误
+    // 2.当展开复数的newtag时，会选中所有输入框，原因是这些遍历出来的input框ref都是一样的
+
+    // async edit (val) {
+    //   try {
+    //     this.obj.attr_sel = this.sel
+    //     this.obj.attr_name = val
+    //     await editCategories(this.id, val, this.obj)
+    //     this.$emit('updates')
+    //   } catch (err) {
+    //     console.log(err)
+    //   }
+    // },
+    async handleClose (val, item) {
       // 删除静态属性
-    },
-    async addSD () {
-      this.parameter.attr_sel = this.sel
+      const index = val.attr_vals.findIndex(it => it === item)
+      val.attr_vals.splice(index, 1)
+      this.obj.attr_sel = this.sel
+      this.obj.attr_name = val.attr_name
+      this.obj.attr_vals = val.attr_vals.join(' ')
       try {
-        await addSomeThing(this.id, this.parameter)
-        this.$emit('updates')
-        // console.log('things', res)
+        const res = await editCategories(this.id, val.attr_id, this.obj)
+        console.log(res)
       } catch (err) {
         console.log(err)
       }
-
+      // console.log(val.attr_vals)
+      console.log(val)
+    },
+    async addSD (val) {
+      this.parameter.attr_sel = this.sel
+      if (this.isEdit) {
+        try {
+          const res = await editCategories(this.id, this.attrId, this.parameter)
+          this.$emit('updates')
+          console.log(res)
+        } catch (err) {
+          console.log(err)
+        }
+      } else {
+        try {
+          await addSomeThing(this.id, this.parameter)
+          this.$emit('updates')
+          // console.log('things', res)
+        } catch (err) {
+          console.log(err)
+        }
+      }
+      this.isEdit = false
       this.dialogFormVisible = false
     },
-    showInput () {
+    showInput (val) {
       this.inputVisible = true
       this.$nextTick(_ => {
         this.$refs.saveTagInput.$refs.input.focus()
@@ -133,11 +185,12 @@ export default {
     async handleInputConfirm (val) {
       const inputValue = this.inputValue
       if (inputValue) {
-        this.obj.attr_name = val.attr_name
-        this.obj.attr_sel = this.sel
         this.obj.attr_vals = [...val.attr_vals, inputValue]
         this.obj.attr_vals = this.obj.attr_vals.join(' ')
+        // this.edit(val.attr_name)
         try {
+          this.obj.attr_name = val.attr_name
+          this.obj.attr_sel = this.sel
           const res = await editCategories(this.id, val.attr_id, this.obj)
           this.$emit('updates')
           console.log(res)
@@ -159,14 +212,22 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    async editThing (val) {
+      this.parameter.attr_name = val.attr_name
+      this.attrId = val.attr_id
+      this.dialogFormVisible = true
+      this.isEdit = true
     }
   },
   computed: {
     title () {
-      // if (this.sel === 'many') {
-      //   return '添加动态参数'
-      // }
-      return this.sel === 'many' ? '添加动态参数' : '添加静态属性'
+      if (this.sel === 'many') {
+        return this.isEdit ? '修改动态参数' : '添加动态参数'
+      } else {
+        return this.isEdit ? '修改静态属性' : '添加静态属性'
+      }
+      // return this.sel === 'many' ? '添加动态参数' : '添加静态属性'
     }
   },
   watch: {},

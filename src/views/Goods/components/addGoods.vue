@@ -51,6 +51,7 @@
       </el-tab-pane>
       <el-tab-pane label="商品内容">
         <quillEditor></quillEditor>
+        <el-button type="primary" @click="onsubmit" style="margin-top:20px">提交</el-button>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -93,6 +94,9 @@ export default {
     // 下拉选择
     handleChange (value) {
       console.log(value)
+    },
+    onsubmit () {
+      console.log('ss')
     }
   },
   computed: {},

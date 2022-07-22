@@ -16,7 +16,7 @@
       <el-cascader
         v-model="obj.goods_cat"
         :options="options"
-        :props="{label:'cat_name'}"
+        :props="{label:'cat_name',value:'cat_id'}"
         @change="handleChange"
       ></el-cascader>
     </el-form-item>

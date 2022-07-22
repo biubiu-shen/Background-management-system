@@ -59,6 +59,7 @@
         </el-form-item>
         <el-form-item label="父级分类:">
           <el-cascader
+            ref="cascaders"
             v-model="formGoodsKind.cat_level"
             :options="tableData"
             :props="{
@@ -70,6 +71,10 @@
           ></el-cascader>
         </el-form-item>
       </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="isdialogKind = false">取 消</el-button>
+        <el-button type="primary" @click="onSubmit">确 定</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -142,7 +147,17 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    onSubmit () {
+      this.isdialogKind = false
+
+      // console.log(this.$refs.cascaders)
+      // this.$refs.cascaders.clearCheckedNodes()
+      console.log(this.formGoodsKind)
     }
+    // getCheckedNodes (val) {
+    //   console.log('node', val)
+    // }
   },
   computed: {
   },
